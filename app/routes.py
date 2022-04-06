@@ -4,6 +4,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from app.models import User
 from datetime import datetime
+from werkzeug.urls import url_parse
 
 @app.route('/')
 @app.route('/index')
@@ -77,7 +78,7 @@ def before_request():
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-  form = EditProfileForm()
+  form = EditProfileForm(current_user.username)
   if form.validate_on_submit():
     current_user.username = form.username.data
     current_user.about_me = form.about_me.data
